@@ -40,7 +40,7 @@
                 <td class="customer-name">{{ product.name }}</td>
                 <td class="order-total">${{ product.price.toFixed(2) }}</td>
                 <td>{{ product.stock }}</td>
-                <td class="order-date">{{ product.categoryId }}</td>
+                <td class="order-date">{{ product.category?.name ?? product.categoryId }}</td>
                 <td class="order-actions">
                   <button class="action-button view" title="View Details" (click)="viewProduct(product)">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

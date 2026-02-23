@@ -8,6 +8,9 @@ export interface Product {
   price: number;
   stock: number;
   categoryId: string;
+  category?: {
+    name: string;
+  };
 }
 
 export interface CreateProductRequest {
