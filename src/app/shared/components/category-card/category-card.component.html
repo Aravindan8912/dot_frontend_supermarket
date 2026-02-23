@@ -1,6 +1,8 @@
 <div class="category-card">
   <div class="category-icon">
-    @if (icon === 'bakery') {
+    @if (icon && (icon.startsWith('http') || icon.startsWith('/') || icon.startsWith('data:'))) {
+      <img [src]="icon" [alt]="name" class="category-icon-img" />
+    } @else if (icon === 'bakery') {
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="10"></circle>
         <path d="M12 2v20M2 12h20"></path>

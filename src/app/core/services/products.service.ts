@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from '../../../core/services/api.service';
+import { ApiService } from './api.service';
 
 export interface Product {
   id: string;
@@ -8,6 +8,9 @@ export interface Product {
   price: number;
   stock: number;
   categoryId: string;
+  category?: {
+    name: string;
+  };
 }
 
 export interface CreateProductRequest {

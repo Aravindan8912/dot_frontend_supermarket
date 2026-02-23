@@ -17,25 +17,25 @@ export interface OrderDisplay {
 }
 
 @Component({
-  selector: 'app-orders-list',
+  selector: 'app-order-history',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './orders-list.component.html',
+  templateUrl: './order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrdersListComponent implements OnInit {
+export class OrderHistoryComponent implements OnInit {
   private ordersService = inject(OrdersService);
   private cdr = inject(ChangeDetectorRef);
 
   orders: OrderDisplay[] = [];
-  isLoadingOrders = false;
+  isLoading = false;
 
   ngOnInit(): void {
-    this.loadOrders();
+    this.loadOrderHistory();
   }
 
-  loadOrders(): void {
-    this.isLoadingOrders = true;
+  loadOrderHistory(): void {
+    this.isLoading = true;
     this.cdr.markForCheck();
     this.ordersService.getOrders().subscribe({
       next: (apiOrders: Order[]) => {
@@ -47,11 +47,11 @@ export class OrdersListComponent implements OnInit {
           status: o.status,
           date: new Date()
         }));
-        this.isLoadingOrders = false;
+        this.isLoading = false;
         this.cdr.markForCheck();
       },
       error: () => {
-        this.isLoadingOrders = false;
+        this.isLoading = false;
         this.cdr.markForCheck();
       }
     });
@@ -85,9 +85,5 @@ export class OrdersListComponent implements OnInit {
 
   viewOrder(order: OrderDisplay): void {
     console.log('View order:', order);
-  }
-
-  editOrder(order: OrderDisplay): void {
-    console.log('Edit order:', order);
   }
 }

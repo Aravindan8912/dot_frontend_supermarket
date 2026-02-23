@@ -1,0 +1,101 @@
+<div class="orders-page">
+  <div class="orders-container">
+    <div class="orders-header">
+      <h1 class="orders-title">Products</h1>
+      <button type="button" class="btn-add-product" (click)="openAddProductDialog()">Add product</button>
+    </div>
+
+    @if (isLoading) {
+      <div class="loading-container">
+        <div class="spinner orders-spinner"></div>
+        <p>Loading products...</p>
+      </div>
+    } @else if (products.length === 0) {
+      <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        <h3>No products found</h3>
+        <p>There are no products to display at the moment.</p>
+      </div>
+    } @else {
+      <div class="orders-table-container">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of products; track trackById($index, product)) {
+              <tr>
+                <td class="order-number">{{ product.id }}</td>
+                <td class="customer-name">{{ product.name }}</td>
+                <td class="order-total">${{ product.price.toFixed(2) }}</td>
+                <td>{{ product.stock }}</td>
+                <td class="order-date">{{ product.category?.name ?? product.categoryId }}</td>
+                <td class="order-actions">
+                  <button class="action-button view" title="View Details" (click)="viewProduct(product)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                  <button class="action-button edit" title="Edit Product" (click)="editProduct(product)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
+
+<app-dialog
+  [isOpen]="showAddProductDialog"
+  title="Add product"
+  (closed)="closeAddProductDialog()">
+  <form (ngSubmit)="saveProduct()">
+    <div class="form-field">
+      <label for="productName">Product name</label>
+      <input id="productName" type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Enter product name" required />
+    </div>
+    <div class="form-field">
+      <label for="productPrice">Price</label>
+      <input id="productPrice" type="number" [(ngModel)]="newProduct.price" name="price" placeholder="0.00" min="0" step="0.01" required />
+    </div>
+    <div class="form-field">
+      <label for="productStock">Stock</label>
+      <input id="productStock" type="number" [(ngModel)]="newProduct.stock" name="stock" placeholder="0" min="0" required />
+    </div>
+    <div class="form-field">
+      <label for="productCategory">Category</label>
+      <select id="productCategory" [(ngModel)]="newProduct.categoryId" name="categoryId" required>
+        <option value="" disabled>Select category</option>
+        @for (cat of categories; track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+    @if (addProductError) {
+      <p class="form-error">{{ addProductError }}</p>
+    }
+  </form>
+  <div dialogActions class="dialog-actions">
+    <button type="button" class="btn-cancel" (click)="closeAddProductDialog()">Cancel</button>
+    <button type="button" class="btn-save" (click)="saveProduct()" [disabled]="addProductSaving">{{ addProductSaving ? 'Saving...' : 'Save' }}</button>
+  </div>
+</app-dialog>

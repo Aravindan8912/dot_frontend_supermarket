@@ -1,0 +1,20 @@
+<section class="content-section analytics-section">
+  <div class="section-header analytics-header">
+    <h3 class="section-title">Analytics</h3>
+    <div class="analytics-controls">
+      <label class="analytics-year-label" for="analyticsYear">Year</label>
+      <select id="analyticsYear" class="analytics-year-select" [ngModel]="analyticsYear" (ngModelChange)="onAnalyticsYearChange($event)">
+        @for (y of analyticsYears; track y) {
+          <option [value]="y">{{ y }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  <div class="analytics-chart-wrap">
+    @if (analyticsLoading) {
+      <p class="analytics-loading">Loading analytics…</p>
+    } @else if (analyticsChartOptions) {
+      <div #chartContainer class="analytics-chart-container"></div>
+    }
+  </div>
+</section>

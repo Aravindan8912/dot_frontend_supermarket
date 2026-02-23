@@ -1,0 +1,77 @@
+<div class="orders-page">
+  <div class="orders-container">
+    <div class="orders-header">
+      <h1 class="orders-title">Order History</h1>
+      <button class="refresh-button" (click)="loadOrderHistory()" [disabled]="isLoading">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <polyline points="1 20 1 14 7 14"></polyline>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        Refresh
+      </button>
+    </div>
+
+    @if (isLoading) {
+      <div class="loading-container">
+        <div class="spinner orders-spinner"></div>
+        <p>Loading order history...</p>
+      </div>
+    } @else if (orders.length === 0) {
+      <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <h3>No order history found</h3>
+        <p>Order history is loaded from the order and order item table.</p>
+      </div>
+    } @else {
+      <div class="orders-table-container">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Order Number</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of orders; track trackByOrderId($index, order)) {
+              <tr>
+                <td class="order-number">{{ order.orderNumber }}</td>
+                <td class="customer-name">{{ order.customerName }}</td>
+                <td class="order-items">
+                  <div class="items-list">
+                    @for (item of order.items; track trackByItemName($index, item)) {
+                      <span class="item-badge">{{ item.name }} x{{ item.quantity }}</span>
+                    }
+                  </div>
+                </td>
+                <td class="order-total">${{ order.total.toFixed(2) }}</td>
+                <td>
+                  <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+                    {{ order.status }}
+                  </span>
+                </td>
+                <td class="order-date">{{ formatDate(order.date) }}</td>
+                <td class="order-actions">
+                  <button class="action-button view" title="View Details" (click)="viewOrder(order)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
