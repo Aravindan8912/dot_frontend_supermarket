@@ -1,0 +1,93 @@
+<div class="settings-page">
+  <h1 class="settings-title">Settings</h1>
+
+  <div class="settings-sections">
+    <!-- Account -->
+    <section class="settings-card">
+      <h2 class="settings-card-title">Account</h2>
+      <p class="settings-card-desc">Edit your account details.</p>
+      <form [formGroup]="accountForm" (ngSubmit)="saveAccount()" class="settings-form">
+        <div class="form-group">
+          <label for="displayName">Display name</label>
+          <input id="displayName" type="text" formControlName="displayName" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label for="accountEmail">Email</label>
+          <input id="accountEmail" type="email" formControlName="email" placeholder="Email" />
+          <span class="form-hint">Email is managed by your account and cannot be changed here.</span>
+        </div>
+        <div class="form-group">
+          <span class="form-hint" *ngIf="userRole">Role: {{ userRole }}</span>
+        </div>
+        <div class="settings-actions">
+          <button type="submit" class="settings-save-btn" [disabled]="accountForm.invalid || accountForm.pristine">
+            Save account
+          </button>
+          @if (accountSaved) {
+            <span class="settings-saved">Saved.</span>
+          }
+        </div>
+      </form>
+    </section>
+
+    <!-- Change password -->
+    <section class="settings-card">
+      <h2 class="settings-card-title">Change password</h2>
+      <p class="settings-card-desc">Update your password. Use at least 6 characters.</p>
+      <form [formGroup]="passwordForm" (ngSubmit)="savePassword()" class="settings-form">
+        <div class="form-group">
+          <label for="currentPassword">Current password</label>
+          <input id="currentPassword" type="password" formControlName="currentPassword" placeholder="Current password" />
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New password</label>
+          <input id="newPassword" type="password" formControlName="newPassword" placeholder="New password" />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm new password</label>
+          <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="Confirm password" />
+        </div>
+        @if (passwordError) {
+          <p class="settings-error">{{ passwordError }}</p>
+        }
+        <div class="settings-actions">
+          <button type="submit" class="settings-save-btn" [disabled]="passwordForm.invalid">
+            Update password
+          </button>
+          @if (passwordSaved) {
+            <span class="settings-saved">Password updated.</span>
+          }
+        </div>
+      </form>
+    </section>
+
+    <!-- Preferences -->
+    <section class="settings-card">
+      <h2 class="settings-card-title">Preferences</h2>
+      <p class="settings-card-desc">Notification and language settings.</p>
+      <form [formGroup]="preferencesForm" (ngSubmit)="savePreferences()" class="settings-form">
+        <div class="form-group">
+          <div class="settings-toggle-row">
+            <input id="notifications" type="checkbox" formControlName="notifications" class="settings-checkbox" />
+            <label for="notifications">Email notifications</label>
+          </div>
+          <span class="form-hint">Receive emails for order updates and promotions.</span>
+        </div>
+        <div class="form-group">
+          <label for="language">Language</label>
+          <select id="language" formControlName="language" class="settings-select">
+            @for (lang of languages; track lang.value) {
+              <option [value]="lang.value">{{ lang.label }}</option>
+            }
+          </select>
+        </div>
+        <div class="settings-actions">
+          <button type="submit" class="settings-save-btn">Save preferences</button>
+          @if (preferencesSaved) {
+            <span class="settings-saved">Saved.</span>
+          }
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

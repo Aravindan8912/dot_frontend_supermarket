@@ -1,12 +1,9 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../../../shared/components/sidebar/sidebar.component';
-import { HeaderComponent } from '../../../../shared/components/header/header.component';
-import { PromoBannerComponent } from '../../../../shared/components/promo-banner/promo-banner.component';
+import { FormsModule } from '@angular/forms';
 import { CategoryCardComponent } from '../../../../shared/components/category-card/category-card.component';
-import { FoodCardComponent } from '../../../../shared/components/food-card/food-card.component';
-import { OrderSummaryComponent } from '../../../../shared/components/order-summary/order-summary.component';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ApiService } from '../../../../core/services/api.service';
 
 export interface Category {
   name: string;
@@ -28,12 +25,8 @@ export interface FoodItem {
   standalone: true,
   imports: [
     CommonModule,
-    SidebarComponent,
-    HeaderComponent,
-    PromoBannerComponent,
-    CategoryCardComponent,
-    FoodCardComponent,
-    OrderSummaryComponent
+    FormsModule,
+    CategoryCardComponent
   ],
   templateUrl: './admin-dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -41,34 +34,133 @@ export interface FoodItem {
 export class AdminDashboardComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
+  private apiService = inject(ApiService);
+
   userEmail: string | null = null;
   userRole: string | null = null;
 
-  categories: Category[] = [
-    { name: 'Bakery', icon: 'bakery' },
-    { name: 'Burger', icon: 'burger' },
-    { name: 'Beverage', icon: 'beverage' },
-    { name: 'Chicken', icon: 'chicken' },
-    { name: 'Pizza', icon: 'pizza' },
-    { name: 'Seafood', icon: 'seafood' }
-  ];
+  categories: Category[] = [];
 
-  popularDishes: FoodItem[] = [
-    { name: 'Fish Burger', price: '$5.59', discount: '15%', rating: 5 },
-    { name: 'Beef Burger', price: '$6.99', discount: '10%', rating: 5 },
-    { name: 'Cheese Burger', price: '$5.59', rating: 5 }
-  ];
+  showAddCategoryForm = false;
+  newCategoryName = '';
+  newCategoryIcon = '';
+  newCategoryIconFile: File | null = null;
+  newCategoryIconPreview: string | null = null;
+  addCategoryLoading = false;
+  addCategoryError: string | null = null;
+
+  popularDishes: FoodItem[] = [];
 
   recentOrders: FoodItem[] = [
-    { name: 'Fish Burger', price: '$5.59', rating: 5, distance: '4.97 km', deliveryTime: '21 min' },
-    { name: 'Japan Ramen', price: '$8.99', rating: 5, distance: '3.2 km', deliveryTime: '15 min' },
-    { name: 'Fried Rice', price: '$7.49', rating: 5, distance: '5.1 km', deliveryTime: '25 min' }
+    
   ];
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
     this.userRole = this.authService.getUserRole();
+    this.loadCategories();
     this.cdr.markForCheck();
+  }
+
+  private loadCategories(): void {
+    this.apiService.get<Category[]>('/categories').subscribe({
+      next: (data) => {
+        this.categories = Array.isArray(data) ? data : (data as { categories?: Category[] }).categories ?? [];
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Failed to load categories', err);
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  openAddCategoryForm(): void {
+    this.showAddCategoryForm = true;
+    this.newCategoryName = '';
+    this.newCategoryIcon = '';
+    this.newCategoryIconFile = null;
+    this.newCategoryIconPreview = null;
+    this.addCategoryError = null;
+    this.cdr.markForCheck();
+  }
+
+  closeAddCategoryForm(): void {
+    this.showAddCategoryForm = false;
+    this.newCategoryName = '';
+    this.newCategoryIcon = '';
+    this.newCategoryIconFile = null;
+    this.revokeIconPreview();
+    this.newCategoryIconPreview = null;
+    this.addCategoryError = null;
+    this.addCategoryLoading = false;
+    this.cdr.markForCheck();
+  }
+
+  private revokeIconPreview(): void {
+    if (this.newCategoryIconPreview) {
+      URL.revokeObjectURL(this.newCategoryIconPreview);
+    }
+  }
+
+  onIconFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    this.revokeIconPreview();
+    this.newCategoryIconFile = file ?? null;
+    this.newCategoryIconPreview = file ? URL.createObjectURL(file) : null;
+    if (!file) this.newCategoryIcon = '';
+    this.cdr.markForCheck();
+  }
+
+  clearIconFile(): void {
+    this.newCategoryIconFile = null;
+    this.revokeIconPreview();
+    this.newCategoryIconPreview = null;
+    this.newCategoryIcon = '';
+    this.cdr.markForCheck();
+  }
+
+  addCategory(): void {
+    const name = this.newCategoryName?.trim();
+    if (!name) {
+      this.addCategoryError = 'Name is required';
+      this.cdr.markForCheck();
+      return;
+    }
+    this.addCategoryError = null;
+    this.addCategoryLoading = true;
+    this.cdr.markForCheck();
+
+    if (this.newCategoryIconFile) {
+      const formData = new FormData();
+      formData.set('name', name);
+      formData.set('icon', this.newCategoryIconFile);
+      this.apiService.postFormData<Category>('/categories', formData).subscribe({
+        next: (created) => {
+          this.categories = [...this.categories, created];
+          this.closeAddCategoryForm();
+        },
+        error: (err) => {
+          this.addCategoryLoading = false;
+          this.addCategoryError = err?.error?.message ?? err?.message ?? 'Failed to add category';
+          this.cdr.markForCheck();
+        }
+      });
+    } else {
+      const icon = this.newCategoryIcon?.trim() ?? '';
+      this.apiService.post<Category>('/categories', { name, icon }).subscribe({
+        next: (created) => {
+          this.categories = [...this.categories, created];
+          this.closeAddCategoryForm();
+        },
+        error: (err) => {
+          this.addCategoryLoading = false;
+          this.addCategoryError = err?.error?.message ?? err?.message ?? 'Failed to add category';
+          this.cdr.markForCheck();
+        }
+      });
+    }
   }
 
   trackByCategory(index: number, category: Category): string {

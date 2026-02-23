@@ -24,6 +24,10 @@ export class ApiService {
     return this.http.post<T>(`${this.apiUrl}${endpoint}`, body);
   }
 
+  postFormData<T>(endpoint: string, formData: FormData): Observable<T> {
+    return this.http.post<T>(`${this.apiUrl}${endpoint}`, formData);
+  }
+
   put<T>(endpoint: string, body: unknown): Observable<T> {
     return this.http.put<T>(`${this.apiUrl}${endpoint}`, body);
   }

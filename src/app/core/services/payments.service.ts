@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from '../../../core/services/api.service';
+import { ApiService } from './api.service';
 
 export interface Payment {
   id: string;
@@ -21,6 +21,10 @@ export interface CreatePaymentRequest {
 })
 export class PaymentsService {
   private apiService = inject(ApiService);
+
+  getPayments(): Observable<Payment[]> {
+    return this.apiService.get<Payment[]>('/payments');
+  }
 
   getPaymentByOrderId(orderId: string): Observable<Payment> {
     return this.apiService.get<Payment>('/payments', { orderId });

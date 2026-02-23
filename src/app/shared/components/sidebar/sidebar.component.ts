@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -17,6 +17,9 @@ export interface MenuItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
+  @Input() isOpen = false;
+  @Output() menuItemClick = new EventEmitter<MenuItem>();
+
   menuItems: MenuItem[] = [
     { label: 'Dashboard', icon: 'home', route: '/admin/dashboard', isActive: true },
     { label: 'Orders', icon: 'shopping-cart', route: '/admin/orders' },
@@ -24,7 +27,6 @@ export class SidebarComponent {
     { label: 'Payments', icon: 'credit-card', route: '/admin/payments' },
     { label: 'Customers', icon: 'users', route: '/admin/customers' },
     { label: 'Order History', icon: 'clock', route: '/admin/order-history' },
-    { label: 'Bills', icon: 'receipt', route: '/admin/bills' },
     { label: 'Setting', icon: 'settings', route: '/admin/settings' }
   ];
 
@@ -35,5 +37,6 @@ export class SidebarComponent {
   setActive(item: MenuItem): void {
     this.menuItems.forEach(menu => menu.isActive = false);
     item.isActive = true;
+    this.menuItemClick.emit(item);
   }
 }

@@ -1,0 +1,15 @@
+<div class="dashboard-layout">
+  <app-sidebar
+    [isOpen]="sidebarOpen"
+    (menuItemClick)="onMenuItemClick()">
+  </app-sidebar>
+  <div class="sidebar-overlay" *ngIf="sidebarOpen" (click)="sidebarOpen = false"></div>
+
+  <div class="dashboard-main">
+    <app-header (toggleSidebar)="sidebarOpen = !sidebarOpen"></app-header>
+
+    <main class="dashboard-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

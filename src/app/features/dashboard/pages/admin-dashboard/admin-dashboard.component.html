@@ -1,64 +1,60 @@
-<div class="dashboard-layout">
-  <app-sidebar></app-sidebar>
-  
-  <div class="dashboard-main">
-    <app-header></app-header>
-    
-    <main class="dashboard-content">
-      <app-promo-banner></app-promo-banner>
-      
-      <section class="content-section">
-        <div class="section-header">
-          <h3 class="section-title">Category</h3>
-          <a href="#" class="view-all-link">View all ></a>
-        </div>
-        <div class="categories-grid">
-          @for (category of categories; track trackByCategory($index, category)) {
-            <app-category-card [name]="category.name" [icon]="category.icon"></app-category-card>
+<div class="dashboard-content-inner">
+  <section class="content-section">
+    <div class="section-header">
+      <h3 class="section-title">Category</h3>
+      <div class="section-actions">
+        <button type="button" class="btn-add-category" (click)="openAddCategoryForm()">Add category</button>
+      </div>
+    </div>
+    @if (showAddCategoryForm) {
+      <div class="add-category-form">
+        <input type="text" [(ngModel)]="newCategoryName" placeholder="Category name" class="form-input" />
+        <div class="icon-upload-row">
+          <label class="file-label">
+            <span class="file-label-text">Icon / Image</span>
+            <input type="file" accept="image/*" class="file-input" (change)="onIconFileChange($event)" #iconFileInput />
+            <span class="file-btn">Choose file</span>
+          </label>
+          @if (newCategoryIconPreview) {
+            <div class="icon-preview-wrap">
+              <img [src]="newCategoryIconPreview" alt="Preview" class="icon-preview" />
+              <button type="button" class="icon-preview-remove" (click)="clearIconFile(); iconFileInput.value = ''" title="Remove">×</button>
+            </div>
+          } @else {
+            <input type="text" [(ngModel)]="newCategoryIcon" placeholder="Or icon name (e.g. bakery)" class="form-input form-input-narrow" />
           }
         </div>
-      </section>
-      
-      <section class="content-section">
-        <div class="section-header">
-          <h3 class="section-title">Popular Dishes</h3>
-          <a href="#" class="view-all-link">View all ></a>
+        @if (addCategoryError) {
+          <p class="form-error">{{ addCategoryError }}</p>
+        }
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closeAddCategoryForm()">Cancel</button>
+          <button type="button" class="btn-save" (click)="addCategory()" [disabled]="addCategoryLoading">
+            {{ addCategoryLoading ? 'Saving...' : 'Save' }}
+          </button>
         </div>
-        <div class="food-grid">
-          @for (dish of popularDishes; track trackByFoodItem($index, dish)) {
-            <app-food-card
-              [name]="dish.name"
-              [price]="dish.price"
-              [discount]="dish.discount"
-              [rating]="dish.rating"
-              (addToCart)="onAddToCart(dish)"
-              (toggleFavorite)="onToggleFavorite(dish)">
-            </app-food-card>
-          }
-        </div>
-      </section>
-      
-      <section class="content-section">
-        <div class="section-header">
-          <h3 class="section-title">Recent Order</h3>
-          <a href="#" class="view-all-link">View all ></a>
-        </div>
-        <div class="food-grid">
-          @for (order of recentOrders; track trackByFoodItem($index, order)) {
-            <app-food-card
-              [name]="order.name"
-              [price]="order.price"
-              [rating]="order.rating"
-              [showDistance]="true"
-              [distance]="order.distance"
-              [deliveryTime]="order.deliveryTime"
-              (toggleFavorite)="onToggleFavorite(order)">
-            </app-food-card>
-          }
-        </div>
-      </section>
-    </main>
-  </div>
-  
-  <app-order-summary></app-order-summary>
+      </div>
+    }
+    <div class="categories-grid">
+      @for (category of categories; track trackByCategory($index, category)) {
+        <app-category-card [name]="category.name" [icon]="category.icon"></app-category-card>
+      }
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <h3 class="section-title">Overall Sales</h3>
+
+    </div>
+    <div class="overall-sales-chart">
+      <canvas id="overallSalesChart"></canvas>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-header">
+      <h3 class="section-title">Recent Order</h3>
+    </div>
+  </section>
 </div>
