@@ -2,14 +2,7 @@
   <div class="orders-container">
     <div class="orders-header">
       <h1 class="orders-title">Products</h1>
-      <button class="refresh-button" (click)="loadProducts()" [disabled]="isLoading">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="23 4 23 10 17 10"></polyline>
-          <polyline points="1 20 1 14 7 14"></polyline>
-          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-        </svg>
-        Refresh
-      </button>
+      <button type="button" class="btn-add-product" (click)="openAddProductDialog()">Add product</button>
     </div>
 
     @if (isLoading) {
@@ -70,3 +63,39 @@
     }
   </div>
 </div>
+
+<app-dialog
+  [isOpen]="showAddProductDialog"
+  title="Add product"
+  (closed)="closeAddProductDialog()">
+  <form (ngSubmit)="saveProduct()">
+    <div class="form-field">
+      <label for="productName">Product name</label>
+      <input id="productName" type="text" [(ngModel)]="newProduct.name" name="name" placeholder="Enter product name" required />
+    </div>
+    <div class="form-field">
+      <label for="productPrice">Price</label>
+      <input id="productPrice" type="number" [(ngModel)]="newProduct.price" name="price" placeholder="0.00" min="0" step="0.01" required />
+    </div>
+    <div class="form-field">
+      <label for="productStock">Stock</label>
+      <input id="productStock" type="number" [(ngModel)]="newProduct.stock" name="stock" placeholder="0" min="0" required />
+    </div>
+    <div class="form-field">
+      <label for="productCategory">Category</label>
+      <select id="productCategory" [(ngModel)]="newProduct.categoryId" name="categoryId" required>
+        <option value="" disabled>Select category</option>
+        @for (cat of categories; track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+    @if (addProductError) {
+      <p class="form-error">{{ addProductError }}</p>
+    }
+  </form>
+  <div dialogActions class="dialog-actions">
+    <button type="button" class="btn-cancel" (click)="closeAddProductDialog()">Cancel</button>
+    <button type="button" class="btn-save" (click)="saveProduct()" [disabled]="addProductSaving">{{ addProductSaving ? 'Saving...' : 'Save' }}</button>
+  </div>
+</app-dialog>

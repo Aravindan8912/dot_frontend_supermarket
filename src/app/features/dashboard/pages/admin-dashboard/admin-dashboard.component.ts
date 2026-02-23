@@ -2,6 +2,7 @@ import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef }
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryCardComponent } from '../../../../shared/components/category-card/category-card.component';
+import { AnalyticsComponent } from '../../../analytics/analytics.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ApiService } from '../../../../core/services/api.service';
 
@@ -26,7 +27,8 @@ export interface FoodItem {
   imports: [
     CommonModule,
     FormsModule,
-    CategoryCardComponent
+    CategoryCardComponent,
+    AnalyticsComponent
   ],
   templateUrl: './admin-dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -51,9 +53,7 @@ export class AdminDashboardComponent implements OnInit {
 
   popularDishes: FoodItem[] = [];
 
-  recentOrders: FoodItem[] = [
-    
-  ];
+  recentOrders: FoodItem[] = [];
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();

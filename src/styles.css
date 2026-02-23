@@ -966,6 +966,61 @@ body {
   margin-bottom: 2.5rem;
 }
 
+.analytics-section {
+  background: var(--bg-surface);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.analytics-header {
+  margin-bottom: 1.25rem;
+}
+
+.analytics-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.analytics-year-label {
+  font-size: 0.875rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.analytics-year-select {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  min-width: 5rem;
+}
+
+.analytics-year-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.analytics-chart-wrap {
+  min-height: 320px;
+  position: relative;
+}
+
+.analytics-chart-container {
+  min-height: 320px;
+}
+
+.analytics-loading {
+  margin: 2rem 0;
+  text-align: center;
+  color: #666;
+  font-size: 0.9375rem;
+}
+
 .section-header {
   display: flex;
   align-items: center;
@@ -1692,6 +1747,107 @@ body {
 
 .refresh-button:disabled {
   opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-add-product {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-add-product:hover {
+  background: #e6c200;
+}
+
+/* Dialog content form/button styles - use with app-dialog shared component */
+.dialog-body .form-field {
+  margin-bottom: 1.25rem;
+}
+
+.dialog-body .form-field:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.dialog-body label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.375rem;
+}
+
+.dialog-body input,
+.dialog-body select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9375rem;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.dialog-body input:focus,
+.dialog-body select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.dialog-body .form-error {
+  margin: 0 0 1rem 0;
+  font-size: 0.875rem;
+  color: #c00;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.dialog-actions .btn-cancel {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background: #eee;
+  border: none;
+  border-radius: 8px;
+  color: #333;
+  cursor: pointer;
+}
+
+.dialog-actions .btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.dialog-actions .btn-save {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.dialog-actions .btn-save:hover:not(:disabled) {
+  background: #e6c200;
+}
+
+.dialog-actions .btn-save:disabled {
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
