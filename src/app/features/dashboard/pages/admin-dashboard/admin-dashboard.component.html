@@ -1,0 +1,64 @@
+<div class="dashboard-layout">
+  <app-sidebar></app-sidebar>
+  
+  <div class="dashboard-main">
+    <app-header></app-header>
+    
+    <main class="dashboard-content">
+      <app-promo-banner></app-promo-banner>
+      
+      <section class="content-section">
+        <div class="section-header">
+          <h3 class="section-title">Category</h3>
+          <a href="#" class="view-all-link">View all ></a>
+        </div>
+        <div class="categories-grid">
+          @for (category of categories; track trackByCategory($index, category)) {
+            <app-category-card [name]="category.name" [icon]="category.icon"></app-category-card>
+          }
+        </div>
+      </section>
+      
+      <section class="content-section">
+        <div class="section-header">
+          <h3 class="section-title">Popular Dishes</h3>
+          <a href="#" class="view-all-link">View all ></a>
+        </div>
+        <div class="food-grid">
+          @for (dish of popularDishes; track trackByFoodItem($index, dish)) {
+            <app-food-card
+              [name]="dish.name"
+              [price]="dish.price"
+              [discount]="dish.discount"
+              [rating]="dish.rating"
+              (addToCart)="onAddToCart(dish)"
+              (toggleFavorite)="onToggleFavorite(dish)">
+            </app-food-card>
+          }
+        </div>
+      </section>
+      
+      <section class="content-section">
+        <div class="section-header">
+          <h3 class="section-title">Recent Order</h3>
+          <a href="#" class="view-all-link">View all ></a>
+        </div>
+        <div class="food-grid">
+          @for (order of recentOrders; track trackByFoodItem($index, order)) {
+            <app-food-card
+              [name]="order.name"
+              [price]="order.price"
+              [rating]="order.rating"
+              [showDistance]="true"
+              [distance]="order.distance"
+              [deliveryTime]="order.deliveryTime"
+              (toggleFavorite)="onToggleFavorite(order)">
+            </app-food-card>
+          }
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <app-order-summary></app-order-summary>
+</div>
