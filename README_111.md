@@ -1,0 +1,2 @@
+# dot_frontend_supermarket
+development_stage starting
