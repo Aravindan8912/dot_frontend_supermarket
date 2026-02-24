@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomersService, Customer } from '../../../../core/services/customers.service';
+import { CustomersService, Customer } from '../../../core/services/customers.service';
 
 @Component({
   selector: 'app-customers-list',
