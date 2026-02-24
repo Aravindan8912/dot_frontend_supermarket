@@ -1,25 +1,11 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CategoryCardComponent } from '../../../../shared/components/category-card/category-card.component';
-import { AnalyticsComponent } from '../../../analytics/analytics.component';
-import { AuthService } from '../../../../core/services/auth.service';
-import { ApiService } from '../../../../core/services/api.service';
-
-export interface Category {
-  name: string;
-  icon: string;
-}
-
-export interface FoodItem {
-  name: string;
-  price: string;
-  image?: string;
-  discount?: string;
-  rating: number;
-  distance?: string;
-  deliveryTime?: string;
-}
+import { CategoryCardComponent } from '../../../shared/components/category-card/category-card.component';
+import { AnalyticsComponent } from '../../analytics/analytics.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { ApiService } from '../../../core/services/api.service';
+import { Category, FoodItem } from '../../../shared/models/dashboard.models';
 
 @Component({
   selector: 'app-admin-dashboard',

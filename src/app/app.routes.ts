@@ -5,7 +5,7 @@ import { roleGuard } from './core/guards/role.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./features/auth/pages/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'admin',

@@ -1,20 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrdersService, Order } from '../../../../core/services/orders.service';
-
-export interface OrderDisplayItem {
-  name: string;
-  quantity: number;
-}
-
-export interface OrderDisplay {
-  orderNumber: string;
-  customerName: string;
-  items: OrderDisplayItem[];
-  total: number;
-  status: string;
-  date: string | Date;
-}
+import { OrdersService, Order } from '../../../core/services/orders.service';
+import { OrderDisplayItem, OrderDisplay } from '../../../shared/models/orders.models';
 
 @Component({
   selector: 'app-orders-list',

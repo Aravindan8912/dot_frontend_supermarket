@@ -1,14 +1,10 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductsService, Product, CreateProductRequest } from '../../../../core/services/products.service';
-import { ApiService } from '../../../../core/services/api.service';
-import { DialogComponent } from '../../../../shared/components/dialog/dialog.component';
-
-interface CategoryOption {
-  id: string;
-  name: string;
-}
+import { ProductsService, Product, CreateProductRequest } from '../../../core/services/products.service';
+import { ApiService } from '../../../core/services/api.service';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
+import { CategoryOption } from '../../../shared/models/products.models';
 
 @Component({
   selector: 'app-products-list',

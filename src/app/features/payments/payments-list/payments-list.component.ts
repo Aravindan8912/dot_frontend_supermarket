@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PaymentsService, Payment } from '../../../../core/services/payments.service';
+import { PaymentsService, Payment } from '../../../core/services/payments.service';
 
 @Component({
   selector: 'app-payments-list',
