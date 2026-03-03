@@ -1,6 +1,6 @@
 @if (isOpen) {
   <div class="dialog-overlay" (click)="onOverlayClick()">
-    <div class="dialog-modal" (click)="onModalClick($event)">
+    <div class="dialog-modal" (click)="onModalClick($event)" [style.max-width]="maxWidth">
       <div class="dialog-header">
         <h2 class="dialog-title">{{ title }}</h2>
         <button type="button" class="dialog-close" (click)="onClose()" aria-label="Close">×</button>

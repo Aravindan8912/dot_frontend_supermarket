@@ -1,0 +1,119 @@
+<div class="orders-page">
+  <div class="orders-container">
+    <div class="orders-header">
+      <h1 class="orders-title">Inventory</h1>
+      <a routerLink="/admin/products" class="btn-add-product">Manage products</a>
+    </div>
+
+    @if (isLoading) {
+      <div class="loading-container">
+        <div class="spinner orders-spinner"></div>
+        <p>Loading inventory...</p>
+      </div>
+    } @else if (products.length === 0) {
+      <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        <h3>No products in inventory</h3>
+        <p>Add products from the products page to see them here.</p>
+        <a routerLink="/admin/products" class="btn-add-product">Go to products</a>
+      </div>
+    } @else {
+      <div class="inventory-summary">
+        <div class="inventory-stat">
+          <span class="inventory-stat-value">{{ products.length }}</span>
+          <span class="inventory-stat-label">Total products</span>
+        </div>
+        <div class="inventory-stat inventory-stat-warning">
+          <span class="inventory-stat-value">{{ lowStockProducts.length }}</span>
+          <span class="inventory-stat-label">Low stock (&lt; {{ lowStockThreshold }})</span>
+        </div>
+      </div>
+
+      <div class="inventory-toolbar">
+        <div class="inventory-search-wrap">
+          <input
+            type="text"
+            class="inventory-search-input"
+            placeholder="Search by product or category..."
+            [(ngModel)]="searchQuery"
+            name="searchQuery" />
+          <button type="button" class="btn-search" title="Search" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="inventory-filter-wrap">
+          <label for="categoryFilter" class="inventory-filter-label">Category</label>
+          <select
+            id="categoryFilter"
+            class="inventory-filter-select"
+            [(ngModel)]="selectedCategoryId"
+            name="selectedCategoryId">
+            <option value="">All categories</option>
+            @for (cat of categories; track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="orders-table-container">
+        <table class="orders-table inventory-table">
+          <thead>
+            <tr>
+              <th class="col-product">Product</th>
+              <th class="col-category">Category</th>
+              <th class="col-stock">Stock</th>
+              <th class="col-status">Status</th>
+              <th class="col-price">Price</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of filteredProducts; track trackById($index, product)) {
+              <tr [class.low-stock]="isLowStock(product)">
+                <td class="col-product customer-name">{{ product.name }}</td>
+                <td class="col-category order-date">{{ product.category?.name ?? product.categoryId }}</td>
+                <td class="col-stock">{{ product.stock }}</td>
+                <td class="col-status">
+                  <span class="status-badge status-badge-{{ getStockStatus(product) }}">
+                    @switch (getStockStatus(product)) {
+                      @case ('red') { Low }
+                      @case ('orange') { Medium }
+                      @case ('green') { Good }
+                    }
+                  </span>
+                </td>
+                <td class="col-price order-total">${{ product.price.toFixed(2) }}</td>
+                <td class="col-actions">
+                  <div class="order-actions">
+                    <button class="action-button edit" title="Edit" (click)="editProduct(product)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                    </button>
+                    <button class="action-button delete" title="Delete" (click)="deleteProduct(product)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

@@ -141,7 +141,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy, AfterViewInit {
           borderRadius: 4
         }
       },
-      colors: ['#ec4899', '#a855f7'],
+      colors: ['#FFC300', '#000814'],
       dataLabels: { enabled: false },
       stroke: {
         show: true,
@@ -166,7 +166,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy, AfterViewInit {
         horizontalAlign: 'right'
       },
       grid: {
-        borderColor: '#e5e7eb',
+        borderColor: 'rgba(0, 8, 20, 0.12)',
         strokeDashArray: 4,
         xaxis: { lines: { show: false } },
         yaxis: { lines: { show: true } }

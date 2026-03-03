@@ -1,0 +1,71 @@
+/**
+ * Design tokens & CSS custom properties
+ * Used across the app for theming (FFC300, 000814, white)
+ */
+:root {
+  /* Font */
+  --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Font sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-8125: 0.8125rem;
+
+  /* Background - white and dark only */
+  --bg-surface: #ffffff;
+  --bg-page: #ffffff;
+  --bg-subtle: rgba(0, 8, 20, 0.04);
+  --bg-muted: rgba(0, 8, 20, 0.06);
+  --bg-input: rgba(0, 8, 20, 0.04);
+  --bg-primary-tint: rgba(255, 195, 0, 0.15);
+
+  /* Borders - from dark with opacity */
+  --border-light: rgba(0, 8, 20, 0.1);
+  --border-default: rgba(0, 8, 20, 0.12);
+  --border-muted: rgba(0, 8, 20, 0.15);
+  --border-dark: rgba(0, 8, 20, 0.2);
+
+  /* Text - dark or white */
+  --text-primary: #000814;
+  --text-secondary: #000814;
+  --text-muted: rgba(0, 8, 20, 0.6);
+  --text-placeholder: rgba(0, 8, 20, 0.5);
+  --text-heading: #000814;
+  --text-label: #000814;
+  --text-muted-alt: rgba(0, 8, 20, 0.65);
+  --text-muted-light: rgba(0, 8, 20, 0.5);
+  --text-muted-dark: rgba(0, 8, 20, 0.75);
+  --text-muted-form: rgba(0, 8, 20, 0.6);
+
+  /* Brand - FFC300 only */
+  --color-primary: #FFC300;
+  --color-primary-hover: #e6b000;
+  --color-primary-light: rgba(255, 195, 0, 0.2);
+
+  /* Dark - 000814 only */
+  --color-dark: #000814;
+  --color-dark-hover: #001428;
+
+  /* Semantic - use only FFC300 and 000814 */
+  --color-success: #FFC300;
+  --color-error: #000814;
+  --color-error-alt: #000814;
+  --color-warning: #FFC300;
+  --color-info: #FFC300;
+  --color-danger: #000814;
+
+  /* Login - 000814 and FFC300 */
+  --login-gradient-start: #000814;
+  --login-gradient-end: #001428;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

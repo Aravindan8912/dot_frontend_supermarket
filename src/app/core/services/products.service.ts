@@ -41,4 +41,8 @@ export class ProductsService {
   updateProduct(id: string, product: Partial<CreateProductRequest>): Observable<Product> {
     return this.apiService.put<Product>(`/products/${id}`, product);
   }
+
+  deleteProduct(id: string): Observable<void> {
+    return this.apiService.delete<void>(`/products/${id}`);
+  }
 }

@@ -23,6 +23,7 @@ export class SidebarComponent {
   menuItems: MenuItem[] = [
     { label: 'Dashboard', icon: 'home', route: '/admin/dashboard', isActive: true },
     { label: 'Orders', icon: 'shopping-cart', route: '/admin/orders' },
+    { label: 'Inventory', icon: 'archive', route: '/admin/inventory' },
     { label: 'Products', icon: 'package', route: '/admin/products' },
     { label: 'Payments', icon: 'credit-card', route: '/admin/payments' },
     { label: 'Customers', icon: 'users', route: '/admin/customers' },

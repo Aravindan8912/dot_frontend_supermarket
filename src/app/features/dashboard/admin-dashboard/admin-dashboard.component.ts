@@ -1,10 +1,12 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { CategoryCardComponent } from '../../../shared/components/category-card/category-card.component';
 import { AnalyticsComponent } from '../../analytics/analytics.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { ApiService } from '../../../core/services/api.service';
+import { ProductsService } from '../../../core/services/products.service';
 import { Category, FoodItem } from '../../../shared/models/dashboard.models';
 
 @Component({
@@ -13,6 +15,7 @@ import { Category, FoodItem } from '../../../shared/models/dashboard.models';
   imports: [
     CommonModule,
     FormsModule,
+    RouterLink,
     CategoryCardComponent,
     AnalyticsComponent
   ],
@@ -23,11 +26,17 @@ export class AdminDashboardComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   private apiService = inject(ApiService);
+  private productsService = inject(ProductsService);
 
   userEmail: string | null = null;
   userRole: string | null = null;
 
   categories: Category[] = [];
+
+  inventoryTotalProducts = 0;
+  inventoryLowStockCount = 0;
+  inventoryLoading = false;
+  private readonly lowStockThreshold = 10;
 
   showAddCategoryForm = false;
   newCategoryName = '';
@@ -45,7 +54,25 @@ export class AdminDashboardComponent implements OnInit {
     this.userEmail = this.authService.getUserEmail();
     this.userRole = this.authService.getUserRole();
     this.loadCategories();
+    this.loadInventorySummary();
     this.cdr.markForCheck();
+  }
+
+  private loadInventorySummary(): void {
+    this.inventoryLoading = true;
+    this.cdr.markForCheck();
+    this.productsService.getProducts().subscribe({
+      next: (products) => {
+        this.inventoryTotalProducts = products.length;
+        this.inventoryLowStockCount = products.filter((p) => p.stock < this.lowStockThreshold).length;
+        this.inventoryLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.inventoryLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   private loadCategories(): void {

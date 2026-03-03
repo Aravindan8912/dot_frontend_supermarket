@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
     .dialog-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 8, 20, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -24,9 +24,9 @@ import { CommonModule } from '@angular/common';
     }
 
     .dialog-modal {
-      background: var(--bg-surface, #fff);
+      background: var(--bg-surface, #ffffff);
       border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 8, 20, 0.2);
       width: 100%;
       max-width: 420px;
       max-height: 90vh;
@@ -39,14 +39,14 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       justify-content: space-between;
       padding: 1.25rem 1.5rem;
-      border-bottom: 1px solid var(--border-light, #eee);
+      border-bottom: 1px solid var(--border-light);
     }
 
     .dialog-title {
       margin: 0;
       font-size: 1.25rem;
       font-weight: 600;
-      color: #1a1a1a;
+      color: var(--text-primary, #000814);
     }
 
     .dialog-close {
@@ -55,7 +55,7 @@ import { CommonModule } from '@angular/common';
       padding: 0;
       font-size: 1.5rem;
       line-height: 1;
-      color: #666;
+      color: var(--text-muted, #000814);
       background: transparent;
       border: none;
       border-radius: 6px;
@@ -64,8 +64,8 @@ import { CommonModule } from '@angular/common';
     }
 
     .dialog-close:hover {
-      background: #f0f0f0;
-      color: #1a1a1a;
+      background: var(--border-light);
+      color: var(--text-primary, #000814);
     }
 
     .dialog-body {
@@ -77,7 +77,7 @@ import { CommonModule } from '@angular/common';
       justify-content: flex-end;
       gap: 0.75rem;
       padding: 1rem 1.5rem 1.25rem;
-      border-top: 1px solid var(--border-light, #eee);
+      border-top: 1px solid var(--border-light);
     }
 
     .dialog-actions-wrapper:empty {
@@ -85,9 +85,15 @@ import { CommonModule } from '@angular/common';
     }
   `]
 })
+/**
+ * Shared dialog component. Use across the app for modals (e.g. Add product, Add customer).
+ * Content: project body content and use attribute dialogActions for footer buttons.
+ */
 export class DialogComponent {
   @Input() isOpen = false;
   @Input() title = '';
+  /** Optional max width (e.g. '420px', '560px'). Default 420px. */
+  @Input() maxWidth = '420px';
 
   @Output() closed = new EventEmitter<void>();
 

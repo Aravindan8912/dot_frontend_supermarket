@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductsService, Product, CreateProductRequest } from '../../../core/services/products.service';
 import { ApiService } from '../../../core/services/api.service';
-import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
+import { DialogComponent } from '../../../shared/components/dialog';
 import { CategoryOption } from '../../../shared/models/products.models';
 
 @Component({
@@ -131,5 +131,17 @@ export class ProductsListComponent implements OnInit {
 
   editProduct(product: Product): void {
     console.log('Edit product:', product);
+  }
+
+  deleteProduct(product: Product): void {
+    this.productsService.deleteProduct(product.id).subscribe({
+      next: () => {
+        this.products = this.products.filter((p) => p.id !== product.id);
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

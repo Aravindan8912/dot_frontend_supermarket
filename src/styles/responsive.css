@@ -1,0 +1,190 @@
+/**
+ * Layout & component breakpoints
+ */
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .dashboard-layout:has(.order-summary) .dashboard-main {
+    margin-right: 320px;
+    width: calc(100vw - 280px - 320px);
+  }
+
+  .order-summary {
+    width: 320px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-main {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: none;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .order-summary {
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .order-summary.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .header-center {
+    order: 3;
+    width: 100%;
+    margin: 0.5rem 0 0 0;
+  }
+
+  .greeting {
+    font-size: 1.25rem;
+  }
+
+  .food-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .content-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.125rem;
+  }
+
+  .promo-title {
+    font-size: 1.5rem;
+  }
+
+  /* List pages responsive */
+  .orders-page,
+  .settings-page {
+    padding: 1rem;
+  }
+
+  .orders-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .orders-title {
+    font-size: 1.25rem;
+  }
+
+  .orders-table th,
+  .orders-table td {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .orders-table .order-actions {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .action-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .settings-card {
+    padding: 1rem 1.25rem;
+  }
+
+  .settings-title {
+    font-size: 1.25rem;
+  }
+
+  .settings-card-title {
+    font-size: 1rem;
+  }
+
+  .settings-save-btn {
+    width: 100%;
+  }
+
+  .settings-select {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 0.75rem;
+  }
+
+  .dashboard-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .greeting {
+    font-size: 1.125rem;
+  }
+
+  .orders-page,
+  .settings-page {
+    padding: 0.75rem;
+  }
+
+  .orders-header {
+    padding: 0.75rem;
+  }
+
+  .orders-title {
+    font-size: 1.125rem;
+  }
+
+  .orders-table-container {
+    margin: 0 -0.75rem;
+    border-radius: 0;
+  }
+
+  .orders-table th,
+  .orders-table td {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  .sidebar-header {
+    padding: 1.25rem 1rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+}

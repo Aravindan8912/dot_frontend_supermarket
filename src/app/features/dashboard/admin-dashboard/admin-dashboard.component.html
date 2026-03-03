@@ -44,6 +44,27 @@
 
   <app-analytics></app-analytics>
 
+  <section class="content-section inventory-section">
+    <div class="section-header">
+      <h3 class="section-title">Inventory</h3>
+      <a routerLink="/admin/inventory" class="view-all-link">View inventory</a>
+    </div>
+    @if (inventoryLoading) {
+      <p class="inventory-loading">Loading inventory…</p>
+    } @else {
+      <div class="inventory-dashboard-cards">
+        <div class="inventory-dashboard-card">
+          <span class="inventory-dashboard-value">{{ inventoryTotalProducts }}</span>
+          <span class="inventory-dashboard-label">Total products</span>
+        </div>
+        <div class="inventory-dashboard-card inventory-dashboard-card-warning">
+          <span class="inventory-dashboard-value">{{ inventoryLowStockCount }}</span>
+          <span class="inventory-dashboard-label">Low stock</span>
+        </div>
+      </div>
+    }
+  </section>
+
   <section class="content-section">
     <div class="section-header">
       <h3 class="section-title">Recent Order</h3>
