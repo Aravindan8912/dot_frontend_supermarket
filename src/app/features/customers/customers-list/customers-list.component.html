@@ -2,14 +2,7 @@
   <div class="orders-container">
     <div class="orders-header">
       <h1 class="orders-title">Customers</h1>
-      <button class="refresh-button" (click)="loadCustomers()" [disabled]="isLoading">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="23 4 23 10 17 10"></polyline>
-          <polyline points="1 20 1 14 7 14"></polyline>
-          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-        </svg>
-        Refresh
-      </button>
+      <button type="button" class="btn-add-product" (click)="openAddCustomerDialog()">Add customer</button>
     </div>
 
     @if (isLoading) {
@@ -69,3 +62,30 @@
     }
   </div>
 </div>
+
+<app-dialog
+  [isOpen]="showAddCustomerDialog"
+  title="Add customer"
+  (closed)="closeAddCustomerDialog()">
+  <form (ngSubmit)="saveCustomer()">
+    <div class="form-field">
+      <label for="customerName">Name</label>
+      <input id="customerName" type="text" [(ngModel)]="newCustomer.name" name="name" placeholder="Enter customer name" required />
+    </div>
+    <div class="form-field">
+      <label for="customerEmail">Email</label>
+      <input id="customerEmail" type="email" [(ngModel)]="newCustomer.email" name="email" placeholder="email@example.com" required />
+    </div>
+    <div class="form-field">
+      <label for="customerPhone">Phone</label>
+      <input id="customerPhone" type="tel" [(ngModel)]="newCustomer.phone" name="phone" placeholder="Phone number" />
+    </div>
+    @if (addCustomerError) {
+      <p class="form-error">{{ addCustomerError }}</p>
+    }
+  </form>
+  <div dialogActions class="dialog-actions">
+    <button type="button" class="btn-cancel" (click)="closeAddCustomerDialog()">Cancel</button>
+    <button type="button" class="btn-save" (click)="saveCustomer()" [disabled]="addCustomerSaving">{{ addCustomerSaving ? 'Saving...' : 'Save' }}</button>
+  </div>
+</app-dialog>

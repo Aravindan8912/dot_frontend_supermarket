@@ -30,6 +30,11 @@ export const dashboardRoutes: Routes = [
         canActivate: [authGuard]
       },
       {
+        path: 'inventory',
+        loadComponent: () => import('../Inventory/Inventory-list/Inventory-list.component').then(m => m.InventoryProductsListComponent),
+        canActivate: [authGuard]
+      },
+      {
         path: 'payments',
         loadComponent: () => import('../payments/payments-list/payments-list.component').then(m => m.PaymentsListComponent),
         canActivate: [authGuard]

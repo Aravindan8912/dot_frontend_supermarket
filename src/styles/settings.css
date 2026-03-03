@@ -1,0 +1,134 @@
+/**
+ * Settings page styles
+ */
+/* Settings page */
+.settings-page {
+  padding: 2rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.settings-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.settings-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.settings-card {
+  background: var(--bg-surface);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem 2rem;
+}
+
+.settings-card-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.settings-card-desc {
+  margin: 0 0 1.25rem 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.settings-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.settings-form .form-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.settings-save-btn {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--color-dark);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.settings-save-btn:hover:not(:disabled) {
+  background: var(--color-dark-hover);
+}
+
+.settings-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-saved {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.settings-error {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.875rem;
+  color: var(--color-error);
+}
+
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.settings-toggle-row label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.settings-checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--text-primary);
+  cursor: pointer;
+}
+
+.settings-select {
+  width: 100%;
+  max-width: 200px;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--border-default);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.settings-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
